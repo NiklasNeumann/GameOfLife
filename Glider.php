@@ -3,7 +3,7 @@
 namespace gameoflife;
 
 /**
- * Class Glider
+ * Create a glider
  * Sets the needed coordinates for the glider and does not change the rest of the field (stays 0).
  * @package gameoflife
  */

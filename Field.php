@@ -2,15 +2,20 @@
 
 namespace gameoflife;
 
+/**
+ * Create playing field
+ * The class Field is responsible für generating and printing the fields and cells needed for the GoL.
+ * It will also count the cell's neighbours and generate the next generation of cells by following the default GoL rules.
+ * @package gameoflife
+ */
 class Field
 {
     protected $field = [];
-    protected $puffer = [];
-    protected $generationCount = 1;
     protected $width;
     protected $height;
     protected $maxSteps;
-    protected $history = [];
+    private $history = [];
+    private $generationCount = 1;
 
     /**
      * Field constructor
@@ -53,7 +58,7 @@ class Field
      * @param $_y int Y-coordinates of the field.
      * @return int Of the neighbour-count.
      */
-    function countNeighbours($_x, $_y)
+    public function countNeighbours($_x, $_y)
     {
         $neighbours = 0;
 
@@ -78,18 +83,18 @@ class Field
     }
 
     /**
-     * Calculate next generation.
+     * Calculate next generation
      * First $puffer is created, which copies the contents of the $fields variable and sets the cell-status to 0 (dead).
      * After that, the "set-alive-conditions" will be implemented and cells fitting the conditions will be set to 1 (alive).
      */
-    function nextGeneration()
+    public function nextGeneration()
     {
-        //$puffer = [];
+        $nextField = [];
 
-        //set puffer to 0
+        //set nextField to 0
         for ($y = 0; $y < $this->height; $y++) {
             for ($x = 0; $x < $this->width; $x++) {
-                $this->puffer[$x][$y] = 0;
+                $nextField[$x][$y] = 0;
             }
         }
 
@@ -99,21 +104,21 @@ class Field
 
                 if ($neighbourCount === 3) {
                     //set alive
-                    $this->puffer[$x][$y] = 1;
+                    $nextField[$x][$y] = 1;
                 }
                 if ($neighbourCount == 2 and $this->field[$x][$y] == 1) {
-                    $this->puffer[$x][$y] = 1;
+                    $nextField[$x][$y] = 1;
                 }
             }
         }
         $this->generationCount++;
-        $this->field = $this->puffer;
+        $this->field = $nextField;
     }
 
     /**
      * Start-Game function
      * Prints the field, calculates the next Generation and prints the new field for "maxSteps"-times.
-     * Also, if a field is printed double and the field does'nt change anymore, the program will stop automatic.
+     * Also, if a field is printed double and the field does'nt change anymore, the program will stop automatically.
      */
     public function start()
     {
@@ -121,11 +126,12 @@ class Field
         $this->printField();
 
         for ($i = 0; $i < $this->maxSteps; $i++) {
-            $this->history[] = $this->field; //feld speichern
+            $this->history[] = $this->field; //saves field
             echo "\n-----Next-Generation:" . $this->generationCount . "-----\n\n";
             $this->nextGeneration();
             $this->printField();
 
+            //compare
             foreach ($this->history as $previousField) {
                 $equal = true;
                 for ($y = 0; $y < $this->height; $y++) {
@@ -143,7 +149,6 @@ class Field
             if (count($this->history) > 2) {
                 array_shift($this->history);
             }
-            //vergleichen
         }
     }
 }

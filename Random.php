@@ -3,7 +3,7 @@
 namespace gameoflife;
 
 /**
- * Class Random
+ * Create random-field
  * Sets x- and y-coordinates for the field and fills them with random 0s and 1s (dead and alive cells).
  * @package gameoflife
  */
