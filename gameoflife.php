@@ -21,8 +21,8 @@ $options = new Getopt
     [null, "width", Getopt::REQUIRED_ARGUMENT, "Allows to set the fields width manually. (HEIGHT STAYS ON DEFAULT)"],
     [null, "height", Getopt::REQUIRED_ARGUMENT, "Allows to set the field height manually. (WIDTH STAYS ON DEFAULT)"],
     [null, "maxSteps", Getopt::REQUIRED_ARGUMENT, "Allows to set the maximum times the program should run through."],
+    [null, "startRandom", Getopt::NO_ARGUMENT, "Starts the game with a random play-field."],
     [null, "startGlider", Getopt::NO_ARGUMENT, "Starts the game with a glider-object."],
-    [null, "startRandom", Getopt::NO_ARGUMENT, "Starts the game with a random play-field."]
 ]);
 
 $options->parse();

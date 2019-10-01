@@ -6,6 +6,7 @@ namespace gameoflife;
  * Create playing field
  * The class Field is responsible für generating and printing the fields and cells needed for the GoL.
  * It will also count the cell's neighbours and generate the next generation of cells by following the default GoL rules.
+ * In the end, the class "start" will execute the code and start the GameOfLife.
  * @package gameoflife
  */
 class Field
@@ -40,7 +41,7 @@ class Field
      * Print the field
      * Generates a field and replaces 1->"$" and 0->" ".
      */
-    public function printField()
+    private function printField()
     {
         for ($y = 0; $y < $this->height; $y++)
         {
@@ -58,7 +59,7 @@ class Field
      * @param $_y int Y-coordinates of the field.
      * @return int Of the neighbour-count.
      */
-    public function countNeighbours($_x, $_y)
+    private function countNeighbours($_x, $_y)
     {
         $neighbours = 0;
 
@@ -87,7 +88,7 @@ class Field
      * First $puffer is created, which copies the contents of the $fields variable and sets the cell-status to 0 (dead).
      * After that, the "set-alive-conditions" will be implemented and cells fitting the conditions will be set to 1 (alive).
      */
-    public function nextGeneration()
+    private function nextGeneration()
     {
         $nextField = [];
 
