@@ -1,14 +1,19 @@
 <?php
 
-namespace gameoflife;
+namespace GameOfLife;
+
+use GameOfLife\inputs\BaseInput;
 use Ulrichsg\Getopt;
+
+require "autoloader.php";
 
 require_once "Getopt.php";
 require_once "Field.php";
-require_once "Random.php";
-require_once "Glider.php";
 
-//$finalSize = 50;
+/**
+ * @var BaseInput
+ */
+$allInputs = [];
 $maxSteps = 500;
 
 $width = 50;
@@ -16,14 +21,24 @@ $height = 25;
 
 $options = new Getopt
 ([
-    ['h', "help", Getopt::NO_ARGUMENT, "Shows help text."],
+    ["h", "help", Getopt::NO_ARGUMENT, "Shows help text."],
     ["v", "version", Getopt::NO_ARGUMENT, "Shows current version of the game."],
     [null, "width", Getopt::REQUIRED_ARGUMENT, "Allows to set the fields width manually. (HEIGHT STAYS ON DEFAULT)"],
     [null, "height", Getopt::REQUIRED_ARGUMENT, "Allows to set the field height manually. (WIDTH STAYS ON DEFAULT)"],
     [null, "maxSteps", Getopt::REQUIRED_ARGUMENT, "Allows to set the maximum times the program should run through."],
-    [null, "startGlider", Getopt::NO_ARGUMENT, "Starts the game with a glider-object."],
-    [null, "startRandom", Getopt::NO_ARGUMENT, "Starts the game with a random play-field."]
+    [null, "input", Getopt::REQUIRED_ARGUMENT, "Allows to start the game's as stats manually."]
 ]);
+
+foreach (glob("inputs/*.php") as $file)
+{
+    $baseName = basename($file, ".php");
+    $className = "GameOfLife\\inputs\\" . $baseName;
+    if ($baseName == "BaseInput") continue;
+    if (!class_exists($className)) continue;
+    $input = new $className;
+    $allInputs[$baseName] = $input;
+    $input->addOptions($options);
+}
 
 $options->parse();
 
@@ -36,7 +51,7 @@ if ($options->getOption("help"))
 
 if ($options->getOption("version"))
 {
-    echo "Game of Life\nVersion 1.0, CN-Consult GmbH 2019-2019\n";
+    echo "Game of Life\nVersion 2.0, CN-Consult GmbH 2019-2019\n";
     die;
 }
 
@@ -54,24 +69,19 @@ if ($options->getOption("height"))
     if ($height < 10) $height = 10;
 }
 
-if ($options->getOption("maxSteps"))
+if ($options->getOption("maxSteps") != null)
 {
     $maxSteps = intval($options->getOption("maxSteps"));
 }
 
-if ($options->getOption("startRandom"))
+if ($options->getOption("input"))
 {
-    $startRandom = new Random("$width", "$height", "$maxSteps");
-    $startRandom->start();
-    die;
-}
+    $field = new Field($width, $height, $maxSteps);
 
-if ($options->getOption("startGlider"))
-{
-    $startGlider = new Glider("$width", "$height", "$maxSteps");
-    $startGlider->start();
-    die;
-}
+    if (array_key_exists($options->getOption("input"), $allInputs))
+    {
+        $allInputs[$options->getOption("input")]->fillField($field, $options);
+    }
 
-$startRandom = new Random("$width", "$height", "$maxSteps");
-$startRandom->start();
+    $field->start();
+}

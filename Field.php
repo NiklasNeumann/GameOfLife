@@ -1,11 +1,12 @@
 <?php
 
-namespace gameoflife;
+namespace GameOfLife;
 
 /**
  * Create playing field
  * The class Field is responsible für generating and printing the fields and cells needed for the GoL.
  * It will also count the cell's neighbours and generate the next generation of cells by following the default GoL rules.
+ * In the end, the class "start" will execute the code and start the GameOfLife.
  * @package gameoflife
  */
 class Field
@@ -15,11 +16,11 @@ class Field
     protected $height;
     protected $maxSteps;
     private $history = [];
-    private $generationCount = 1;
+    private $generationCount = 0;
 
     /**
      * Field constructor
-     * Constructs an empty field, which can be overwritten by the child constructor.
+     * Constructs an empty field, be invoking the function constructField.
      * @param $_width int
      * @param $_height int
      * @param $_maxSteps int
@@ -29,18 +30,60 @@ class Field
         $this->width = $_width;
         $this->height = $_height;
         $this->maxSteps = $_maxSteps;
-        for ($y = 0; $y < $this->height; $y++) {
-            for ($x = 0; $x < $this->width; $x++) {
+
+        $this->constructField();
+    }
+
+    /**
+     * Construct empty field
+     */
+    public function constructField()
+    {
+        for ($y = 0; $y < $this->height; $y++)
+        {
+            for ($x = 0; $x < $this->width; $x++)
+            {
                 $this->field[$x][$y] = 0;
             }
         }
     }
 
     /**
+     * Set field's cells
+     * @param $_x int for the x-Position of the cells
+     * @param $_y int for the y-position of the cells
+     * @param $_state bool for the status of cells (dead or alive)
+     */
+    public function setField($_x, $_y, $_state)
+    {
+        if ($_x >= 0 and $_x < $this->width and $_y >= 0 and $_y < $this->height)
+        {
+            $this->field[$_x][$_y] = $_state;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+
+    /**
      * Print the field
      * Generates a field and replaces 1->"$" and 0->" ".
      */
-    public function printField()
+    private function printField()
     {
         for ($y = 0; $y < $this->height; $y++)
         {
@@ -58,7 +101,7 @@ class Field
      * @param $_y int Y-coordinates of the field.
      * @return int Of the neighbour-count.
      */
-    public function countNeighbours($_x, $_y)
+    private function countNeighbours($_x, $_y)
     {
         $neighbours = 0;
 
@@ -87,7 +130,7 @@ class Field
      * First $puffer is created, which copies the contents of the $fields variable and sets the cell-status to 0 (dead).
      * After that, the "set-alive-conditions" will be implemented and cells fitting the conditions will be set to 1 (alive).
      */
-    public function nextGeneration()
+    private function nextGeneration()
     {
         $nextField = [];
 
@@ -111,7 +154,7 @@ class Field
                 }
             }
         }
-        $this->generationCount++;
+
         $this->field = $nextField;
     }
 
@@ -122,12 +165,13 @@ class Field
      */
     public function start()
     {
-        echo $this->generationCount;
+        echo "\n-----Generation:" . $this->generationCount . "-----\n\n";
         $this->printField();
 
         for ($i = 0; $i < $this->maxSteps; $i++) {
             $this->history[] = $this->field; //saves field
-            echo "\n-----Next-Generation:" . $this->generationCount . "-----\n\n";
+            $this->generationCount++;
+            echo "\n-----Generation:" . $this->generationCount . "-----\n\n";
             $this->nextGeneration();
             $this->printField();
 
