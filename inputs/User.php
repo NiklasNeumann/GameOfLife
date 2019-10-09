@@ -24,9 +24,10 @@ class User extends BaseInput
      */
     public function fillField(Field &$_field, Getopt $_options)
     {
-        echo "To change the state of a cell type in the coordinates of the cell separated by a comma\n";
-        echo "e.g. \"5,14\"\n";
-        echo "If you are finished type exit";
+        echo "To change the state of a cell type in the coordinates of the cell separated by a comma.\n";
+        echo "Additionally the state can be added.";
+        echo "e.g. \"5,14,1\" creates a living cell at 5|14.\n";
+        echo "If you are finished type exit\n";
         while(1)
         {
             $_field->printField();
@@ -37,6 +38,10 @@ class User extends BaseInput
             if(count($coords) == 2)
             {
                 $_field->setField($coords[0],$coords[1],1);
+            }
+            if(count($coords) == 3)
+            {
+                $_field->setField($coords[0],$coords[1],$coords[2]);
             }
         }
     }
