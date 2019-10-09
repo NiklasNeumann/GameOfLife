@@ -83,7 +83,7 @@ class Field
      * Print the field
      * Generates a field and replaces 1->"$" and 0->" ".
      */
-    private function printField()
+    public function printField()
     {
         for ($y = 0; $y < $this->height; $y++)
         {
