@@ -31,10 +31,10 @@ class User extends BaseInput
      */
     public function fillField(Field &$_field, Getopt $_options)
     {
-        echo "To change a cell type the coordinates and optionally the state separated by commas";
-        echo "and hit enter\n";
+        echo "To change a cell type the coordinates, optionally the state, separated by commas";
+        echo "and hit enter.\n";
         echo "e.g. \"5,14,1\" creates a living cell at 5|14.\n";
-        echo "If you are finished type exit\n";
+        echo "If you are finished type exit.\n";
         while(1)
         {
             $_field->printField();
