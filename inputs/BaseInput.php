@@ -13,6 +13,18 @@ use Ulrichsg\Getopt;
  */
 abstract class BaseInput
 {
+    /**
+     * Add options
+     * Allows to add options to the variable $options in the gameoflife.php file.
+     * @param Getopt $_options
+     */
     abstract public function addOptions(Getopt &$_options);
+
+    /**
+     * Fill field
+     * Fills the board with the wished number of cells. The filling will be set via parameter.
+     * @param Field $_field
+     * @param Getopt $_options
+     */
     abstract public function fillField(Field &$_field, Getopt $_options);
 }

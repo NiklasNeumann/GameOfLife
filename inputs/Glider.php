@@ -5,6 +5,11 @@ namespace GameOfLife\inputs;
 use GameOfLife\Field;
 use Ulrichsg\Getopt;
 
+/**
+ * Class Glider
+ * Generates a field with a glider.
+ * The glider's position can be set manually by using the "x" and "y" parameters.
+ */
 class Glider extends BaseInput
 {
     /**
@@ -29,8 +34,8 @@ class Glider extends BaseInput
      */
     public function fillField(Field &$_field, Getopt $_options)
     {
-        $offsetX = floor($_field->getWidth() / 2 - 1.5);
-        $offsetY = floor($_field->getHeight() / 2 - 1.5);
+        $offsetX = floor($_field->width() / 2 - 1.5);
+        $offsetY = floor($_field->height() / 2 - 1.5);
 
         if ($_options->getOption("x") != null)
         {

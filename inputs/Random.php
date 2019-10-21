@@ -5,6 +5,11 @@ namespace GameOfLife\inputs;
 use GameOfLife\Field;
 use Ulrichsg\Getopt;
 
+/**
+ * Class Random
+ * Generates a field with random living cells.
+ * The filling of the field can be set with the "filling" parameter.
+ */
 class Random extends BaseInput
 {
     /**
@@ -16,7 +21,7 @@ class Random extends BaseInput
     {
         $_options->addOptions
         ([
-                ['f', "filling", Getopt::REQUIRED_ARGUMENT, "Allows to set the amount of living cells on the field."]
+                ['f', "filling", Getopt::REQUIRED_ARGUMENT, "Allows to set the percentage amount of living cells on the field."]
         ]);
     }
 
@@ -35,9 +40,9 @@ class Random extends BaseInput
             $filling = 50;
         }
 
-        for ($y = 0; $y < $_field->getHeight(); $y++)
+        for ($y = 0; $y < $_field->height(); $y++)
         {
-            for ($x = 0; $x < $_field->getWidth(); $x++)
+            for ($x = 0; $x < $_field->width(); $x++)
             {
                 if ($filling > rand(0, 99))
                 {

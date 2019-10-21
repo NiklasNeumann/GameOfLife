@@ -20,7 +20,6 @@ class Field
 
     /**
      * Field constructor
-     * Constructs an empty field, be invoking the function constructField.
      * @param $_width int
      * @param $_height int
      * @param $_maxSteps int
@@ -37,7 +36,7 @@ class Field
     /**
      * Construct empty field
      */
-    public function constructField()
+    private function constructField()
     {
         for ($y = 0; $y < $this->height; $y++)
         {
@@ -65,7 +64,7 @@ class Field
     /**
      * @return mixed
      */
-    public function getHeight()
+    public function height()
     {
         return $this->height;
     }
@@ -73,7 +72,7 @@ class Field
     /**
      * @return mixed
      */
-    public function getWidth()
+    public function width()
     {
         return $this->width;
     }

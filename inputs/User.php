@@ -20,8 +20,7 @@ class User extends BaseInput
      * @param Getopt $_options Option manager to check for optional arguments.
      */
     public function addOptions(Getopt &$_options)
-    {
-    }
+    {}
 
     /**
      * Fills a field.

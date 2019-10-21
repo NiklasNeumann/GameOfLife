@@ -17,7 +17,7 @@ $allInputs = [];
 $maxSteps = 500;
 
 $width = 50;
-$height = 25;
+$height = 20;
 
 $options = new Getopt
 ([
@@ -51,7 +51,7 @@ if ($options->getOption("help"))
 
 if ($options->getOption("version"))
 {
-    echo "Game of Life\nVersion 2.0, CN-Consult GmbH 2019-2019\n";
+    echo "Game of Life\nVersion 2.0, CN-Consult GmbH 2019\n";
     die;
 }
 
@@ -78,7 +78,7 @@ if ($options->getOption("input"))
 {
     $field = new Field($width, $height, $maxSteps);
 
-    if (array_key_exists($options->getOption("input"), $allInputs))
+    if (isset($allInputs[$options->getOption("input")]))
     {
         $allInputs[$options->getOption("input")]->fillField($field, $options);
     }
