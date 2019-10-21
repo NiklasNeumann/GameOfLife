@@ -6,14 +6,13 @@ use GameOfLife\Field;
 use Ulrichsg\Getopt;
 
 /**
- * Class Glider
  * Generates a field with a glider.
  * The glider's position can be set manually by using the "x" and "y" parameters.
  */
 class Glider extends BaseInput
 {
     /**
-     * Add options
+     * Add options.
      * Allows to add options to the variable $options in the gameoflife.php file.
      * @param Getopt $_options
      */
@@ -27,7 +26,7 @@ class Glider extends BaseInput
     }
 
     /**
-     * Fill field
+     * Fill field.
      * A Glider will be placed at the wished position on the field. The X- and Y-coordinates will be set via parameter.
      * @param Field $_field
      * @param Getopt $_options
