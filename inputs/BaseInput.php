@@ -19,7 +19,7 @@ abstract class BaseInput
     abstract public function addOptions(Getopt &$_options);
 
     /**
-     * Fills the field.
+     * Fills the empty field.
      * @param Field $_field
      * @param Getopt $_options
      */

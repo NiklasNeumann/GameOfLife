@@ -2,6 +2,8 @@
 
 namespace GameOfLife;
 
+use GameOfLife\outputs\BaseOutput;
+
 /**
  * Create playing field
  * The class Field is responsible für generating and printing the fields and cells needed for the GoL.
@@ -59,6 +61,11 @@ class Field
         {
             $this->field[$_x][$_y] = $_state;
         }
+    }
+
+    public function field($_x, $_y)
+    {
+        return $this->field[$_x][$_y];
     }
 
     /**
@@ -161,18 +168,17 @@ class Field
      * Start-Game function
      * Prints the field, calculates the next Generation and prints the new field for "maxSteps"-times.
      * Also, if a field is printed double and the field does'nt change anymore, the program will stop automatically.
+     * @param $_output BaseOutput
      */
-    public function start()
+    public function start(&$_output)
     {
-        echo "\n-----Generation:" . $this->generationCount . "-----\n\n";
-        $this->printField();
+        $_output->outputField($this);
 
         for ($i = 0; $i < $this->maxSteps; $i++) {
             $this->history[] = $this->field; //saves field
             $this->generationCount++;
-            echo "\n-----Generation:" . $this->generationCount . "-----\n\n";
             $this->nextGeneration();
-            $this->printField();
+            $_output->outputField($this);
 
             //compare
             foreach ($this->history as $previousField) {
