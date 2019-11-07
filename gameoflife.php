@@ -68,7 +68,7 @@ if ($options->getOption("help"))
 
 if ($options->getOption("version"))
 {
-    echo "Game of Life\nVersion 2.0, CN-Consult GmbH 2019\n";
+    echo "Game of Life\nVersion 2.1, CN-Consult GmbH 2019\n";
     die;
 }
 
