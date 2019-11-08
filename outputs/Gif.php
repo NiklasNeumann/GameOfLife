@@ -44,16 +44,16 @@ class Gif extends BaseOutput
      */
     public function outputField(Field $_field)
     {
-        $with = $_field->width();
+        $width = $_field->width();
         $height = $_field->height();
 
-        $image = imagecreate($with, $height);
+        $image = imagecreate($width, $height);
         $backgroundColor = imagecolorallocate($image, 0, 0, 0);
         $cellColor = imagecolorallocate($image, 255, 255, 255);
 
         for ($y = 0; $y < $height; $y++)
         {
-            for ($x = 0; $x < $with; $x++)
+            for ($x = 0; $x < $width; $x++)
             {
                 imagesetpixel($image, $x, $y, $_field->field($x, $y) ? $cellColor : $backgroundColor);
             }
