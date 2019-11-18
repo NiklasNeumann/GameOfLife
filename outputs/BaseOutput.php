@@ -6,7 +6,7 @@ use GameOfLife\Field;
 use Ulrichsg\Getopt;
 
 /**
- * The Base-Output
+ * The Base-Output.
  * With the function addOptions(), you can add Options from outside of the gameoflife.php file.
  * startOutput() starts the output, outputField outputs the fields and finishOutput() simply finishes the output.
  * @package GameOfLife\outputs
@@ -18,7 +18,7 @@ abstract class BaseOutput
      * @param Getopt $_options
      * @return mixed
      */
-    abstract public function addOptions(Getopt &$_options);
+    abstract public function addOptions(Getopt $_options);
 
     /**
      * Starts the output.

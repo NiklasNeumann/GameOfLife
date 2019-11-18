@@ -6,7 +6,7 @@ use GameOfLife\Field;
 use Ulrichsg\Getopt;
 
 /**
- * Creates Console-output
+ * Outputs the field to console.
  * Shows the output on console.
  * @package GameOfLife\outputs
  */
@@ -16,7 +16,7 @@ class Console extends BaseOutput
      * Allows to add options to the variable $options in the gameoflife.php file.
      * @param Getopt $_options
      */
-    public function addOptions(Getopt &$_options)
+    public function addOptions(Getopt $_options)
     {
 
     }
@@ -31,12 +31,23 @@ class Console extends BaseOutput
     }
 
     /**
-     * Outputs the field.
+     * Prints and outputs the field.
+     * Generates a field and replaces 1->"$" and 0->" ".
      * @param Field $_field
      */
     public function outputField(Field $_field)
     {
-        $_field->printField();
+        $width = $_field->width();
+        $height = $_field->height();
+
+        for ($y = 0; $y < $height; $y++)
+        {
+            for ($x = 0; $x < $width; $x++)
+            {
+                echo($_field->fieldValue($x,$y) ? "$" : " ");
+            }
+            echo "\n";
+        }
     }
 
     /**

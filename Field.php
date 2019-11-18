@@ -38,7 +38,7 @@ class Field
     /**
      * Construct empty field
      */
-    private function constructField()
+    public function constructField()
     {
         for ($y = 0; $y < $this->height; $y++)
         {
@@ -55,7 +55,7 @@ class Field
      * @param $_y int for the y-position of the cells
      * @param $_state bool for the status of cells (dead or alive)
      */
-    public function setField($_x, $_y, $_state)
+    public function setFieldValue($_x, $_y, $_state)
     {
         if ($_x >= 0 and $_x < $this->width and $_y >= 0 and $_y < $this->height)
         {
@@ -63,7 +63,13 @@ class Field
         }
     }
 
-    public function field($_x, $_y)
+    /**
+     * Get the field's cells
+     * @param $_x int for the x-Position of the cells
+     * @param $_y int for the y-position of the cells
+     * @return mixed
+     */
+    public function fieldValue($_x, $_y)
     {
         return $this->field[$_x][$_y];
     }
@@ -82,23 +88,6 @@ class Field
     public function width()
     {
         return $this->width;
-    }
-
-
-    /**
-     * Print the field
-     * Generates a field and replaces 1->"$" and 0->" ".
-     */
-    public function printField()
-    {
-        for ($y = 0; $y < $this->height; $y++)
-        {
-            for ($x = 0; $x < $this->width; $x++)
-            {
-                echo($this->field[$x][$y] ? "$" : " ");
-            }
-            echo "\n";
-        }
     }
 
     /**
@@ -168,9 +157,9 @@ class Field
      * Start-Game function
      * Prints the field, calculates the next Generation and prints the new field for "maxSteps"-times.
      * Also, if a field is printed double and the field does'nt change anymore, the program will stop automatically.
-     * @param $_output BaseOutput
+     * @param $_output BaseOutput The Output that should be used to output the field.
      */
-    public function start(&$_output)
+    public function start($_output)
     {
         $_output->outputField($this);
 

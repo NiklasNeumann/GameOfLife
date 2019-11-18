@@ -22,7 +22,7 @@ class Png extends BaseOutput
      * Allows to add options to the variable $options in the gameoflife.php file.
      * @param Getopt $_options
      */
-    public function addOptions(Getopt &$_options)
+    public function addOptions(Getopt $_options)
     {
         $_options->addOptions
         ([
@@ -95,7 +95,7 @@ class Png extends BaseOutput
         {
             for ($x = 0; $x < $width; $x++)
             {
-                imagesetpixel($image, $x, $y,$_field->field($x, $y) ? $cellColor : $backgroundColor);
+                imagesetpixel($image, $x, $y,$_field->fieldValue($x, $y) ? $cellColor : $backgroundColor);
             }
         }
         $image = imagescale($image, $width * $this->scaleFactor, $height * $this->scaleFactor, IMG_NEAREST_NEIGHBOUR);

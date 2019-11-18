@@ -28,7 +28,7 @@ class Gif extends BaseOutput
      * @param Getopt $_options
      * @return void
      */
-    public function addOptions(Getopt &$_options)
+    public function addOptions(Getopt $_options)
     {
         $_options->addOptions
         ([
@@ -104,7 +104,7 @@ class Gif extends BaseOutput
         {
             for ($x = 0; $x < $width; $x++)
             {
-                imagesetpixel($image, $x, $y, $_field->field($x, $y) ? $cellColor : $backgroundColor);
+                imagesetpixel($image, $x, $y, $_field->fieldValue($x, $y) ? $cellColor : $backgroundColor);
             }
         }
 

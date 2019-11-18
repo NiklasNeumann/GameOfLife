@@ -4,6 +4,7 @@ namespace GameOfLife;
 
 use GameOfLife\inputs\BaseInput;
 use GameOfLife\outputs\BaseOutput;
+use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
 require "autoloader.php";
@@ -96,7 +97,8 @@ if ($options->getOption("input"))
 {
     if (isset($allInputs[$options->getOption("input")]))
     {
-        $allInputs[$options->getOption("input")]->fillField($field, $options);
+        $console = new Console();
+        $allInputs[$options->getOption("input")]->fillField($field, $console, $options);
     }
 }
 
