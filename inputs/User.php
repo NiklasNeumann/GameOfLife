@@ -3,6 +3,7 @@
 namespace GameOfLife\inputs;
 
 use GameOfLife\Field;
+use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
 /**
@@ -26,9 +27,10 @@ class User extends BaseInput
      * Fills a field.
      *
      * @param Field $_field Board to prepare.
+     * @param Console $_console
      * @param Getopt $_options Option manager to check for optional arguments.
      */
-    public function fillField(Field &$_field, Getopt $_options)
+    public function fillField(Field &$_field, Console &$_console, Getopt $_options)
     {
         echo "To change a cell type the coordinates, optionally the state, separated by commas";
         echo "and hit enter.\n";
@@ -36,18 +38,18 @@ class User extends BaseInput
         echo "If you are finished type exit.\n";
         while(1)
         {
-            $_field->printField();
+            $_console->outputField($_field);
             $line = readline("<<");
             if( $line == "exit" )
                 break;
             $coords = explode(",", $line);
             if(count($coords) == 2)
             {
-                $_field->setField($coords[0],$coords[1],1);
+                $_field->setFieldValue($coords[0],$coords[1],1);
             }
             if(count($coords) == 3)
             {
-                $_field->setField($coords[0],$coords[1],$coords[2]);
+                $_field->setFieldValue($coords[0],$coords[1],$coords[2]);
             }
         }
     }

@@ -3,6 +3,7 @@
 namespace GameOfLife\inputs;
 
 use GameOfLife\Field;
+use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
 /**
@@ -19,9 +20,10 @@ abstract class BaseInput
     abstract public function addOptions(Getopt &$_options);
 
     /**
-     * Fills the field.
+     * Fills the empty field.
      * @param Field $_field
+     * @param Console $_console
      * @param Getopt $_options
      */
-    abstract public function fillField(Field &$_field, Getopt $_options);
+    abstract public function fillField(Field &$_field, Console &$_console, Getopt $_options);
 }

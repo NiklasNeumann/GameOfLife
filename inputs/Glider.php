@@ -3,6 +3,7 @@
 namespace GameOfLife\inputs;
 
 use GameOfLife\Field;
+use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
 /**
@@ -29,9 +30,10 @@ class Glider extends BaseInput
      * Fill field.
      * A Glider will be placed at the wished position on the field. The X- and Y-coordinates will be set via parameter.
      * @param Field $_field
+     * @param Console $_console
      * @param Getopt $_options
      */
-    public function fillField(Field &$_field, Getopt $_options)
+    public function fillField(Field &$_field, Console &$_console, Getopt $_options)
     {
         $offsetX = floor($_field->width() / 2 - 1.5);
         $offsetY = floor($_field->height() / 2 - 1.5);
@@ -45,10 +47,10 @@ class Glider extends BaseInput
             $offsetY =intval($_options->getOption("y"));
         }
 
-        $_field->setField(1+$offsetX,0+$offsetY,1);
-        $_field->setField(2+$offsetX,1+$offsetY,1);
-        $_field->setField(2+$offsetX,2+$offsetY,1);
-        $_field->setField(0+$offsetX,2+$offsetY,1);
-        $_field->setField(1+$offsetX,2+$offsetY,1);
+        $_field->setFieldValue(1+$offsetX,0+$offsetY,1);
+        $_field->setFieldValue(2+$offsetX,1+$offsetY,1);
+        $_field->setFieldValue(2+$offsetX,2+$offsetY,1);
+        $_field->setFieldValue(0+$offsetX,2+$offsetY,1);
+        $_field->setFieldValue(1+$offsetX,2+$offsetY,1);
     }
 }

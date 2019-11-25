@@ -3,6 +3,8 @@
 namespace GameOfLife;
 
 use GameOfLife\inputs\BaseInput;
+use GameOfLife\outputs\BaseOutput;
+use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
 require "autoloader.php";
@@ -14,6 +16,10 @@ require_once "Field.php";
  * @var BaseInput
  */
 $allInputs = [];
+/**
+ * @var BaseOutput $allOutputs
+ */
+$allOutputs = [];
 $maxSteps = 500;
 
 $width = 50;
@@ -26,7 +32,8 @@ $options = new Getopt
     [null, "width", Getopt::REQUIRED_ARGUMENT, "Allows to set the fields width manually. (HEIGHT STAYS ON DEFAULT)"],
     [null, "height", Getopt::REQUIRED_ARGUMENT, "Allows to set the field height manually. (WIDTH STAYS ON DEFAULT)"],
     [null, "maxSteps", Getopt::REQUIRED_ARGUMENT, "Allows to set the maximum times the program should run through."],
-    [null, "input", Getopt::REQUIRED_ARGUMENT, "Allows to start the game's as stats manually."]
+    [null, "input", Getopt::REQUIRED_ARGUMENT, "Allows to start the game's as stats manually."],
+    [null, "output", Getopt::REQUIRED_ARGUMENT, "Allows to set the output-type manually."]
 ]);
 
 foreach (glob("inputs/*.php") as $file)
@@ -35,9 +42,20 @@ foreach (glob("inputs/*.php") as $file)
     $className = "GameOfLife\\inputs\\" . $baseName;
     if ($baseName == "BaseInput") continue;
     if (!class_exists($className)) continue;
-    $input = new $className;
-    $allInputs[$baseName] = $input;
-    $input->addOptions($options);
+    $inputs = new $className;
+    $allInputs[$baseName] = $inputs;
+    $inputs->addOptions($options);
+}
+
+foreach (glob("outputs/*.php") as $file)
+{
+    $baseName = basename($file, ".php");
+    $className = "GameOfLife\\outputs\\" . $baseName;
+    if ($baseName == "BaseOutput") continue;
+    if (!class_exists($className)) continue;
+    $outputs = new $className;
+    $allOutputs[$baseName] = $outputs;
+    $outputs->addOptions($options);
 }
 
 $options->parse();
@@ -51,7 +69,7 @@ if ($options->getOption("help"))
 
 if ($options->getOption("version"))
 {
-    echo "Game of Life\nVersion 2.0, CN-Consult GmbH 2019\n";
+    echo "Game of Life\nVersion 2.1, CN-Consult GmbH 2019\n";
     die;
 }
 
@@ -74,14 +92,24 @@ if ($options->getOption("maxSteps") != null)
     $maxSteps = intval($options->getOption("maxSteps"));
 }
 
+$field = new Field($width, $height, $maxSteps);
 if ($options->getOption("input"))
 {
-    $field = new Field($width, $height, $maxSteps);
-
     if (isset($allInputs[$options->getOption("input")]))
     {
-        $allInputs[$options->getOption("input")]->fillField($field, $options);
+        $console = new Console();
+        $allInputs[$options->getOption("input")]->fillField($field, $console, $options);
     }
-
-    $field->start();
 }
+
+if ($options->getOption("output"))
+{
+    $argument = $options->getOption("output");
+    if (isset($allOutputs[$argument]))
+    {
+        $allOutputs[$argument]->startOutput($options);
+        $field->start($allOutputs[$argument]);
+        $allOutputs[$argument]->finishOutput();
+    }
+}
+

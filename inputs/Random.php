@@ -3,6 +3,7 @@
 namespace GameOfLife\inputs;
 
 use GameOfLife\Field;
+use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
 /**
@@ -28,9 +29,10 @@ class Random extends BaseInput
      * Fill field.
      * The board will be filled with the wished number of cells. The filling will be set via parameter.
      * @param Field $_field
+     * @param Console $_console
      * @param Getopt $_options
      */
-    public function fillField(Field &$_field, Getopt $_options)
+    public function fillField(Field &$_field, Console &$_console, Getopt $_options)
     {
         $filling = intval($_options->getOption("filling"));
 
@@ -45,7 +47,7 @@ class Random extends BaseInput
             {
                 if ($filling > rand(0, 99))
                 {
-                    $_field->setField($x, $y, 1);
+                    $_field->setFieldValue($x, $y, 1);
                 }
             }
         }
