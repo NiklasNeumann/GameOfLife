@@ -1,0 +1,16 @@
+{
+  "autoload":
+  {
+    "psr-4":
+    {
+      "GameOfLife\\": "."
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "require": {
+    "ext-readline": "*",
+    "ext-gd": "*"
+  }
+}

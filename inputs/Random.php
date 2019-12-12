@@ -17,7 +17,7 @@ class Random extends BaseInput
      * Allows to add options to the variable $options in the gameoflife.php file.
      * @param Getopt $_options
      */
-    public function addOptions(Getopt &$_options)
+    public function addOptions(Getopt $_options)
     {
         $_options->addOptions
         ([
@@ -32,7 +32,7 @@ class Random extends BaseInput
      * @param Console $_console
      * @param Getopt $_options
      */
-    public function fillField(Field &$_field, Console &$_console, Getopt $_options)
+    public function fillField(Field $_field, Console $_console, Getopt $_options)
     {
         $filling = intval($_options->getOption("filling"));
 

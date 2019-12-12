@@ -7,7 +7,7 @@ use GameOfLife\outputs\BaseOutput;
 use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
-require "autoloader.php";
+require "vendor/autoload.php";
 
 require_once "Getopt.php";
 require_once "Field.php";

@@ -1,2 +1,4 @@
 .idea/
 /outPng/
+/.vagrant/
+/vendor/

@@ -1,0 +1,15 @@
+<phpunit colors="true" verbose="true">
+    <filter>
+        <whitelist>
+            <directory>/vagrant/</directory>
+            <exclude>
+                <directory>vendor/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <testsuites>
+        <testsuite name="unit test">
+            <directory>tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

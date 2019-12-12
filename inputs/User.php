@@ -20,7 +20,7 @@ class User extends BaseInput
      * Allows to add options to the variable $options in the gameoflife.php file.
      * @param Getopt $_options Option manager to check for optional arguments.
      */
-    public function addOptions(Getopt &$_options)
+    public function addOptions(Getopt $_options)
     {}
 
     /**
@@ -30,7 +30,7 @@ class User extends BaseInput
      * @param Console $_console
      * @param Getopt $_options Option manager to check for optional arguments.
      */
-    public function fillField(Field &$_field, Console &$_console, Getopt $_options)
+    public function fillField(Field $_field, Console $_console, Getopt $_options)
     {
         echo "To change a cell type the coordinates, optionally the state, separated by commas";
         echo "and hit enter.\n";

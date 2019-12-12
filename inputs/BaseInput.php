@@ -17,7 +17,7 @@ abstract class BaseInput
      * Allows to add options to the variable $options in the gameoflife.php file.
      * @param Getopt $_options
      */
-    abstract public function addOptions(Getopt &$_options);
+    abstract public function addOptions(Getopt $_options);
 
     /**
      * Fills the empty field.
@@ -25,5 +25,5 @@ abstract class BaseInput
      * @param Console $_console
      * @param Getopt $_options
      */
-    abstract public function fillField(Field &$_field, Console &$_console, Getopt $_options);
+    abstract public function fillField(Field $_field, Console $_console, Getopt $_options);
 }
