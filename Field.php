@@ -36,6 +36,29 @@ class Field
     }
 
     /**
+     *
+     * @param $_array
+     * @param $_maxSteps
+     * @return Field
+     */
+    public static function createFromArray($_array, $_maxSteps)
+    {
+        $height = count($_array);
+        $width = count($_array[0]);
+
+        $field = new Field($width, $height, $_maxSteps);
+
+        for($y = 0; $y < $height; $y++)
+        {
+            for($x = 0; $x < $width; $x++)
+            {
+                $field->setfieldValue($x, $y, $_array[$x][$y]);
+            }
+        }
+        return $field;
+    }
+
+    /**
      * Construct empty field
      */
     public function constructField()
@@ -88,6 +111,33 @@ class Field
     public function width()
     {
         return $this->width;
+    }
+
+    /**
+     * Compare field with parameter field.
+     * @param Field $_field
+     * @return bool
+     */
+    public function isEqualTo(Field $_field)
+    {
+        $isEqual = false;
+
+        if ($this->width != $_field->width() or $this->height != $_field->height())
+        {
+            return $isEqual;
+        }
+
+        for($y = 0; $y < $this->height(); $y++)
+        {
+            for($x = 0; $x < $this->width(); $x++)
+            {
+                if($this->field[$x][$y] == $_field->fieldValue($x,$y))
+                {
+                    $isEqual = true;
+                }
+            }
+        }
+        return $isEqual;
     }
 
     /**

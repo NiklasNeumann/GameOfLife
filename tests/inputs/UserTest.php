@@ -43,8 +43,9 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $isEqual = $this->compare($field, $pattern);
-        $this->assertTrue($isEqual);
+        $field2 = Field::createFromArray($pattern, 0);
+
+        $this->assertTrue($field->isEqualTo($field2));
     }
 
     public function testInstantExit()
@@ -64,8 +65,9 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $isEqual = $this->compare($field, $pattern);
-        $this->assertTrue($isEqual);
+        $field2 = Field::createFromArray($pattern, 0);
+
+        $this->assertTrue($field->isEqualTo($field2));
     }
 
     public function testHitAndRun()
@@ -87,8 +89,9 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $isEqual = $this->compare($field, $pattern);
-        $this->assertTrue($isEqual);
+        $field2 = Field::createFromArray($pattern, 0);
+
+        $this->assertTrue($field->isEqualTo($field2));
     }
 
     public function testStateZeroStayZero()
@@ -109,8 +112,9 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $isEqual = $this->compare($field, $pattern);
-        $this->assertTrue($isEqual);
+        $field2 = Field::createFromArray($pattern, 0);
+
+        $this->assertTrue($field->isEqualTo($field2));
     }
 
     public function testOutOfBounce()
@@ -132,28 +136,8 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $isEqual = $this->compare($field, $pattern);
-        $this->assertTrue($isEqual);
-    }
+        $field2 = Field::createFromArray($pattern, 0);
 
-    /**
-     * @param Field $field
-     * @param array $pattern
-     * @return bool
-     */
-    public function compare(Field $field, array $pattern): bool
-    {
-        $isEqual = true;
-        for ($y = 0; $y < $field->height(); $y++)
-        {
-            for ($x = 0; $x < $field->width(); $x++)
-            {
-                if ($field->fieldValue($x, $y) != $pattern[$y][$x])
-                {
-                    $isEqual = false;
-                }
-            }
-        }
-        return $isEqual;
+        $this->assertTrue($field->isEqualTo($field2));
     }
 }

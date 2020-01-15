@@ -1,35 +1,12 @@
 <?php
 
-namespace GameOfLife\outputs;
-
-$input = [];
-
-function readline($prompt = null)
-{
-    global $input;
-    if (empty($input))
-    {
-        return "";
-    }
-
-    return array_shift($input);
-}
-
-function expectColor($r, $g, $b)
-{
-    global $input;
-    $input[] = $r;
-    $input[] = $g;
-    $input[] = $b;
-}
-
 namespace outputs;
 
 use GameOfLife\Field;
 use GameOfLife\outputs\Png;
+use Icecave\Isolator\Isolator;
 use PHPUnit\Framework\TestCase;
 use Ulrichsg\Getopt;
-use function GameOfLife\outputs\expectColor;
 
 class PngTest extends TestCase
 {
@@ -55,7 +32,12 @@ class PngTest extends TestCase
         $png = new Png();
         $png->addOptions($option);
         $option->parse("--pngOutputBackgroundColor");
-        expectColor("122", "122", "122");
+        $isolator = $this->createMock(Isolator::class);
+        $isolator->method("readline")
+            ->willReturn("122")
+            ->willReturn("122")
+            ->willReturn("122");
+        $png->setIsolator($isolator); //expectColor("122", "122", "122");
         $png->startOutput($option);
         $png->outputField($field);
 
@@ -72,7 +54,12 @@ class PngTest extends TestCase
         $png = new Png();
         $png->addOptions($option);
         $option->parse("--pngOutputCellColor");
-        expectColor("200", "200", "200");
+        $isolator = $this->createMock(Isolator::class);
+        $isolator->method("readline")
+            ->willReturn("200")
+            ->willReturn("200")
+            ->willReturn("200");
+        $png->setIsolator($isolator);
         $png->startOutput($option);
         $png->outputField($field);
 
@@ -115,13 +102,16 @@ class PngTest extends TestCase
     }
 
     /**
+     * Compare Picture
+     * The function uses the given parameters to create a new picture.
+     * Afterward this picture be compared to another generated picture and will give a positive Unit-test result, if both of them are equal.
      * @param Field $field
-     * @param $picture
-     * @param $cellColor
-     * @param $backgroundColor
+     * @param $picture resource
+     * @param $cellColor array defines the color for the cell, by using RGB code.
+     * @param $backgroundColor array defines the backgroundcolor of the cell, by using RGB code.
      * @return bool
      */
-    public function comparePicture(Field $field, $picture,
+    private function comparePicture(Field $field, $picture,
                                    $cellColor = ["red" => 255, "green" => 255, "blue" => 255, "alpha" => 0],
                                    $backgroundColor = ["red" => 0, "green" => 0, "blue" => 0, "alpha" => 0]): bool
     {

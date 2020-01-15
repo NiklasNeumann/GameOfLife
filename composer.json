@@ -6,11 +6,14 @@
       "GameOfLife\\": "."
     }
   },
-  "require-dev": {
+  "require-dev":
+  {
     "phpunit/phpunit": "*"
   },
-  "require": {
+  "require":
+  {
     "ext-readline": "*",
-    "ext-gd": "*"
+    "ext-gd": "*",
+    "icecave/isolator": "^3.0"
   }
 }

@@ -44,15 +44,16 @@ class GliderTest extends TestCase
      */
     public function testGliderPattern(Field $field)
     {
-        $patter = [
+        $pattern = [
             [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
             [0, 0, 0, 1, 0],
             [0, 1, 1, 1, 0],
             [0, 0, 0, 0, 0]];
 
-        $isEqual = $this->compare($field, $patter);
-        $this->assertTrue($isEqual);
+        $field2 = Field::createFromArray($pattern,0);
+
+        $this->assertTrue($field->isEqualTo($field2));
     }
 
     public function testFieldIsTooSmallForGlider()
@@ -66,8 +67,9 @@ class GliderTest extends TestCase
             [0,1],
             [1,1]];
 
-        $isEqual = $this->compare($field, $expected);
-        $this->assertTrue($isEqual);
+        $field2 = Field::createFromArray($expected,0);
+
+        $this->assertTrue($field->isEqualTo($field2));
     }
 
     public function testCustomPosition()
@@ -79,35 +81,15 @@ class GliderTest extends TestCase
         $option->parse("-x 0 -y 0");
         $glider->fillField($field, new Console(), $option);
 
-        $patter = [
+        $pattern = [
             [0, 1, 0, 0, 0],
             [0, 0, 1, 0, 0],
             [1, 1, 1, 0, 0],
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0]];
 
-        $isEqual = $this->compare($field, $patter);
-        $this->assertTrue($isEqual);
-    }
+        $field2 = Field::createFromArray($pattern,0);
 
-    /**
-     * @param Field $field
-     * @param array $patter
-     * @return bool
-     */
-    public function compare(Field $field, array $patter): bool
-    {
-        $isEqual = true;
-        for ($y = 0; $y < $field->height(); $y++)
-        {
-            for ($x = 0; $x < $field->width(); $x++)
-            {
-                if ($field->fieldValue($x, $y) != $patter[$y][$x])
-                {
-                    $isEqual = false;
-                }
-            }
-        }
-        return $isEqual;
+        $this->assertTrue($field->isEqualTo($field2));
     }
 }

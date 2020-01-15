@@ -25,6 +25,27 @@ $maxSteps = 500;
 $width = 50;
 $height = 20;
 
+class test
+{
+    public $hey;
+    public function __construct()
+    {
+        $this->hey = "hey";
+    }
+    public static function e()
+    {
+        self::e2();
+        return new test();
+    }
+    public static function e2()
+    {}
+    public function abc()
+    {
+
+    }
+}
+test::e();
+
 $options = new Getopt
 ([
     ["h", "help", Getopt::NO_ARGUMENT, "Shows help text."],

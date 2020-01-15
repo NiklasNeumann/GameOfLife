@@ -7,10 +7,9 @@ use GameOfLife\outputs\BaseOutput;
 use Ulrichsg\Getopt;
 
 /**
- * The Base-Output.
- * With the function addOptions(), you can add Options from outside of the gameoflife.php file.
- * startOutput() starts the output, outputField outputs the fields and finishOutput() simply finishes the output.
- * @package GameOfLife\outputs
+ * The DummyOutput
+ * This output is a support class for the Field class and is supposed to mock the BaseOutput, so it can be used for Unit-Tests.
+ * @package GameOfLife\tests
  */
 class DummyOutput extends BaseOutput
 {

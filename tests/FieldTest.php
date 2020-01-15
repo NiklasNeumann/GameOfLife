@@ -92,4 +92,40 @@ class FieldTest extends TestCase
         $this->assertEquals(0, $_field->fieldValue(25, 15));
         $this->assertEquals(0, $_field->fieldValue(25, 13));
     }
+
+    public function testIfTheIsEqualFunctionWorks()
+    {
+        $field = new Field(5, 5, 5);
+        $field2 = new Field(5, 5, 5);
+
+        $this->assertTrue($field->isEqualTo($field2));
+    }
+
+    public function testCompareWithSmallerField()
+    {
+        $field = new Field(5, 5, 5);
+        $field2 = new Field(3, 2, 5);
+
+        $this->assertFalse($field->isEqualTo($field2));
+    }
+
+    public function testCompareWithLargerField()
+    {
+        $field = new Field(5, 5, 5);
+        $field2 = new Field(3, 2, 5);
+
+        $this->assertFalse($field->isEqualTo($field2));
+    }
+
+    public function testCompareToDifferentFields()
+    {
+        $field = new Field(5, 5, 5);
+        $field2 = new Field(3, 2, 5);
+
+        $field->setFieldValue(3, 3, 1);
+
+        $this->assertFalse($field->isEqualTo($field2));
+    }
+
+
 }
