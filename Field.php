@@ -36,9 +36,9 @@ class Field
     }
 
     /**
-     *
-     * @param $_array
-     * @param $_maxSteps
+     * Create field from Array.
+     * @param $_array array
+     * @param $_maxSteps int
      * @return Field
      */
     public static function createFromArray($_array, $_maxSteps)
