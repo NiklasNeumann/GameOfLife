@@ -17,7 +17,7 @@ class Glider extends BaseInput
      * Allows to add options to the variable $options in the gameoflife.php file.
      * @param Getopt $_options
      */
-    public function addOptions(Getopt &$_options)
+    public function addOptions(Getopt $_options)
     {
         $_options->addOptions(
             [
@@ -33,18 +33,18 @@ class Glider extends BaseInput
      * @param Console $_console
      * @param Getopt $_options
      */
-    public function fillField(Field &$_field, Console &$_console, Getopt $_options)
+    public function fillField(Field $_field, Console $_console, Getopt $_options)
     {
         $offsetX = floor($_field->width() / 2 - 1.5);
         $offsetY = floor($_field->height() / 2 - 1.5);
 
         if ($_options->getOption("x") != null)
         {
-            $offsetX =intval($_options->getOption("x"));
+            $offsetX = intval($_options->getOption("x"));
         }
         if ($_options->getOption("y") != null)
         {
-            $offsetY =intval($_options->getOption("y"));
+            $offsetY = intval($_options->getOption("y"));
         }
 
         $_field->setFieldValue(1+$offsetX,0+$offsetY,1);

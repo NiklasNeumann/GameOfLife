@@ -54,9 +54,9 @@ class Png extends BaseOutput
         {
             echo "To set the color, please enter the right RGB color-code for the color you want.\n";
             echo "----------------------------------------\n";
-            $this->cellColor[] = intval(readline("Cell-Color Red: "));
-            $this->cellColor[] = intval(readline("Cell-Color Green: "));
-            $this->cellColor[] = intval(readline("Cell-Color Blue: "));
+            $this->cellColor[] = intval($this->isolator()->readline("Cell-Color Red: "));
+            $this->cellColor[] = intval($this->isolator()->readline("Cell-Color Green: "));
+            $this->cellColor[] = intval($this->isolator()->readline("Cell-Color Blue: "));
         }
         else
         {
@@ -68,9 +68,9 @@ class Png extends BaseOutput
         {
             echo "To set the color, please enter the right RGB color-code for the color you want.\n";
             echo "----------------------------------------\n";
-            $this->backgroundColor[] = intval(readline("Background-Color Red: "));
-            $this->backgroundColor[] = intval(readline("Background-Color Green: "));
-            $this->backgroundColor[] = intval(readline("Background-Color Blue: "));
+            $this->backgroundColor[] = intval($this->isolator()->readline("Background-Color Red: "));
+            $this->backgroundColor[] = intval($this->isolator()->readline("Background-Color Green: "));
+            $this->backgroundColor[] = intval($this->isolator()->readline("Background-Color Blue: "));
         }
         else
         {

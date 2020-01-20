@@ -36,6 +36,29 @@ class Field
     }
 
     /**
+     * Create field from Array.
+     * @param $_array array
+     * @param $_maxSteps int
+     * @return Field
+     */
+    public static function createFromArray($_array, $_maxSteps)
+    {
+        $height = count($_array);
+        $width = count($_array[0]);
+
+        $field = new Field($width, $height, $_maxSteps);
+
+        for($y = 0; $y < $height; $y++)
+        {
+            for($x = 0; $x < $width; $x++)
+            {
+                $field->setfieldValue($x, $y, $_array[$x][$y]);
+            }
+        }
+        return $field;
+    }
+
+    /**
      * Construct empty field
      */
     public function constructField()
@@ -91,6 +114,33 @@ class Field
     }
 
     /**
+     * Compare field with parameter field.
+     * @param Field $_field
+     * @return bool
+     */
+    public function isEqualTo(Field $_field)
+    {
+        $isEqual = false;
+
+        if ($this->width != $_field->width() or $this->height != $_field->height())
+        {
+            return $isEqual;
+        }
+
+        for($y = 0; $y < $this->height(); $y++)
+        {
+            for($x = 0; $x < $this->width(); $x++)
+            {
+                if($this->field[$x][$y] == $_field->fieldValue($x,$y))
+                {
+                    $isEqual = true;
+                }
+            }
+        }
+        return $isEqual;
+    }
+
+    /**
      * Count living neighbours
      * @param $_x int X-coordinates of the field.
      * @param $_y int Y-coordinates of the field.
@@ -100,19 +150,25 @@ class Field
     {
         $neighbours = 0;
 
-        for ($ny = $_y - 1; $ny <= $_y + 1; $ny++) {
-            for ($nx = $_x - 1; $nx <= $_x + 1; $nx++) {
-                if ($nx >= $this->width or $nx < 0) {
+        for ($ny = $_y - 1; $ny <= $_y + 1; $ny++)
+        {
+            for ($nx = $_x - 1; $nx <= $_x + 1; $nx++)
+            {
+                if ($nx >= $this->width or $nx < 0)
+                {
                     continue;
                 }
-                if ($ny >= $this->height or $ny < 0) {
+                if ($ny >= $this->height or $ny < 0)
+                {
                     continue;
                 }
-                if ($nx == $_x and $ny == $_y) {
+                if ($nx == $_x and $ny == $_y)
+                {
                     continue;
                 }
 
-                if ($this->field[$nx][$ny] == 1) {
+                if ($this->field[$nx][$ny] == 1)
+                {
                     $neighbours++;
                 }
             }
@@ -122,7 +178,7 @@ class Field
 
     /**
      * Calculate next generation
-     * First $puffer is created, which copies the contents of the $fields variable and sets the cell-status to 0 (dead).
+     * First $nextField is created, which copies the contents of the $fields variable and sets the cell-status to 0 (dead).
      * After that, the "set-alive-conditions" will be implemented and cells fitting the conditions will be set to 1 (alive).
      */
     private function nextGeneration()
@@ -130,21 +186,28 @@ class Field
         $nextField = [];
 
         //set nextField to 0
-        for ($y = 0; $y < $this->height; $y++) {
-            for ($x = 0; $x < $this->width; $x++) {
+        for ($y = 0; $y < $this->height; $y++)
+        {
+            for ($x = 0; $x < $this->width; $x++)
+            {
                 $nextField[$x][$y] = 0;
             }
         }
 
-        for ($y = 0; $y < $this->height; $y++) {
-            for ($x = 0; $x < $this->width; $x++) {
+        for ($y = 0; $y < $this->height; $y++)
+        {
+            for ($x = 0; $x < $this->width; $x++)
+            {
                 $neighbourCount = $this->countNeighbours($x, $y);
 
-                if ($neighbourCount === 3) {
+                if ($neighbourCount === 3)
+                {
                     //set alive
                     $nextField[$x][$y] = 1;
                 }
-                if ($neighbourCount == 2 and $this->field[$x][$y] == 1) {
+
+                if ($neighbourCount == 2 and $this->field[$x][$y] == 1)
+                {
                     $nextField[$x][$y] = 1;
                 }
             }
@@ -163,28 +226,35 @@ class Field
     {
         $_output->outputField($this);
 
-        for ($i = 0; $i < $this->maxSteps; $i++) {
+        for ($i = 0; $i < $this->maxSteps; $i++)
+        {
             $this->history[] = $this->field; //saves field
             $this->generationCount++;
             $this->nextGeneration();
             $_output->outputField($this);
 
             //compare
-            foreach ($this->history as $previousField) {
+            foreach ($this->history as $previousField)
+            {
                 $equal = true;
-                for ($y = 0; $y < $this->height; $y++) {
-                    for ($x = 0; $x < $this->width; $x++) {
-                        if ($previousField[$x][$y] != $this->field[$x][$y]) {
+                for ($y = 0; $y < $this->height; $y++)
+                {
+                    for ($x = 0; $x < $this->width; $x++)
+                    {
+                        if ($previousField[$x][$y] != $this->field[$x][$y])
+                        {
                             $equal = false;
                         }
                     }
                 }
-                if ($equal == true) {
+                if ($equal == true)
+                {
                     return;
                 }
             }
 
-            if (count($this->history) > 2) {
+            if (count($this->history) > 2)
+            {
                 array_shift($this->history);
             }
         }

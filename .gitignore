@@ -1,2 +1,5 @@
 .idea/
 /outPng/
+/.vagrant/
+/vendor/
+.phpunit.result.cache

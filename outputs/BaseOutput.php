@@ -3,6 +3,7 @@
 namespace GameOfLife\outputs;
 
 use GameOfLife\Field;
+use Icecave\Isolator\IsolatorTrait;
 use Ulrichsg\Getopt;
 
 /**
@@ -13,6 +14,8 @@ use Ulrichsg\Getopt;
  */
 abstract class BaseOutput
 {
+    use IsolatorTrait;
+
     /**
      * Allows to add options to the variable $options in the gameoflife.php file.
      * @param Getopt $_options
