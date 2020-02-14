@@ -2,7 +2,7 @@
 
 namespace inputs;
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use GameOfLife\inputs\Glider;
 use GameOfLife\outputs\Console;
 use PHPUnit\Framework\TestCase;
@@ -12,21 +12,21 @@ require_once "Getopt.php";
 
 class GliderTest extends TestCase
 {
-    public function testFillFieldYieldsNotEmptyField()
+    public function testFillBoardYieldsNotEmptyBoard()
     {
-        $field = new Field(5, 5, 1);
+        $board = new Board(5, 5);
         $glider = new Glider();
         $options = new Getopt();
         $console = new Console();
 
-        $glider->fillField($field, $console, $options);
+        $glider->fillBoard($board, $console, $options);
         $isEmpty = true;
 
-        for ($y = 0; $y < $field->height(); $y++)
+        for ($y = 0; $y < $board->height(); $y++)
         {
-            for ($x = 0; $x < $field->width(); $x++)
+            for ($x = 0; $x < $board->width(); $x++)
             {
-                if ($field->fieldValue($x, $y) != 0)
+                if ($board->boardValue($x, $y) != 0)
                 {
                     $isEmpty = false;
                 }
@@ -35,14 +35,14 @@ class GliderTest extends TestCase
 
         $this->assertFalse($isEmpty);
 
-        return $field;
+        return $board;
     }
 
     /**
-     * @depends testFillFieldYieldsNotEmptyField
-     * @param Field $field
+     * @depends testFillBoardYieldsNotEmptyBoard
+     * @param Board $board
      */
-    public function testGliderPattern(Field $field)
+    public function testGliderPattern(Board $board)
     {
         $pattern = [
             [0, 0, 0, 0, 0],
@@ -51,35 +51,34 @@ class GliderTest extends TestCase
             [0, 1, 1, 1, 0],
             [0, 0, 0, 0, 0]];
 
-        $field2 = Field::createFromArray($pattern,0);
+        $board2 = Board::createFromArray($pattern);
 
-        $this->assertTrue($field->isEqualTo($field2));
+        $this->assertTrue($board->isEqualTo($board2));
     }
 
     public function testFieldIsTooSmallForGlider()
     {
-        $isEqual = true;
-        $field = new Field(2, 2, 1);
+        $board = new Board(2, 2);
         $glider = new Glider();
-        $glider->fillField($field,new Console(), new Getopt());
+        $glider->fillBoard($board,new Console(), new Getopt());
 
         $expected = [
             [0,1],
             [1,1]];
 
-        $field2 = Field::createFromArray($expected,0);
+        $board2 = Board::createFromArray($expected);
 
-        $this->assertTrue($field->isEqualTo($field2));
+        $this->assertTrue($board->isEqualTo($board2));
     }
 
     public function testCustomPosition()
     {
-        $field = new Field(5, 5, 1);
+        $board = new Board(5, 5);
         $option = new Getopt();
         $glider = new Glider();
         $glider->addOptions($option);
         $option->parse("-x 0 -y 0");
-        $glider->fillField($field, new Console(), $option);
+        $glider->fillBoard($board, new Console(), $option);
 
         $pattern = [
             [0, 1, 0, 0, 0],
@@ -88,8 +87,8 @@ class GliderTest extends TestCase
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0]];
 
-        $field2 = Field::createFromArray($pattern,0);
+        $board2 = Board::createFromArray($pattern);
 
-        $this->assertTrue($field->isEqualTo($field2));
+        $this->assertTrue($board->isEqualTo($board2));
     }
 }

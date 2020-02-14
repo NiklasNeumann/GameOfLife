@@ -2,13 +2,13 @@
 
 namespace GameOfLife\tests;
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use GameOfLife\outputs\BaseOutput;
 use Ulrichsg\Getopt;
 
 /**
  * The DummyOutput
- * This output is a support class for the Field class and is supposed to mock the BaseOutput, so it can be used for Unit-Tests.
+ * This output is a support class for the Board class and is supposed to mock the BaseOutput, so it can be used for Unit-Tests.
  * @package GameOfLife\tests
  */
 class DummyOutput extends BaseOutput
@@ -34,11 +34,11 @@ class DummyOutput extends BaseOutput
     }
 
     /**
-     * Outputs the field.
-     * @param Field $_field
+     * Outputs the board.
+     * @param Board $_board
      * @return mixed
      */
-    public function outputField(Field $_field)
+    public function outputBoard(Board $_board)
     {
 
     }

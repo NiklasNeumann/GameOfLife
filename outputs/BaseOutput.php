@@ -2,14 +2,14 @@
 
 namespace GameOfLife\outputs;
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use Icecave\Isolator\IsolatorTrait;
 use Ulrichsg\Getopt;
 
 /**
  * The Base-Output.
  * With the function addOptions(), you can add Options from outside of the gameoflife.php file.
- * startOutput() starts the output, outputField outputs the fields and finishOutput() simply finishes the output.
+ * startOutput() starts the output, outputBoard outputs the boards and finishOutput() simply finishes the output.
  * @package GameOfLife\outputs
  */
 abstract class BaseOutput
@@ -31,11 +31,11 @@ abstract class BaseOutput
     abstract public function startOutput(Getopt $_options);
 
     /**
-     * Outputs the field.
-     * @param Field $_field
+     * Outputs the board.
+     * @param Board $_board
      * @return mixed
      */
-    abstract public function outputField(Field $_field);
+    abstract public function outputBoard(Board $_board);
 
     /**
      * Finishes the output.

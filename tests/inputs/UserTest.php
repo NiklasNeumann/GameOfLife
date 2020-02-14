@@ -17,7 +17,7 @@ function readline($prompt = null)
 
 namespace inputs;
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use GameOfLife\inputs\User;
 use GameOfLife\outputs\Console;
 use PHPUnit\Framework\TestCase;
@@ -28,12 +28,12 @@ class UserTest extends TestCase
     public function testUserInput()
     {
         global $input;
-        $field = new Field(5, 5, 1);
+        $board = new Board(5, 5);
         $option = new Getopt();
         $user = new User();
         $input[] = "2,2,1";
         $input[] = "exit";
-        $user->fillField($field, new Console(), $option);
+        $user->fillBoard($board, new Console(), $option);
 
         $pattern = [
             [0, 0, 0, 0, 0],
@@ -43,19 +43,19 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $field2 = Field::createFromArray($pattern, 0);
+        $board2 = Board::createFromArray($pattern);
 
-        $this->assertTrue($field->isEqualTo($field2));
+        $this->assertTrue($board->isEqualTo($board2));
     }
 
     public function testInstantExit()
     {
         global $input;
-        $field = new Field(5, 5, 1);
+        $board = new Board(5, 5);
         $option = new Getopt();
         $user = new User();
         $input[] = "exit";
-        $user->fillField($field, new Console(), $option);
+        $user->fillBoard($board, new Console(), $option);
 
         $pattern = [
             [0, 0, 0, 0, 0],
@@ -65,21 +65,21 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $field2 = Field::createFromArray($pattern, 0);
+        $board2 = Board::createFromArray($pattern);
 
-        $this->assertTrue($field->isEqualTo($field2));
+        $this->assertTrue($board->isEqualTo($board2));
     }
 
     public function testHitAndRun()
     {
         global $input;
-        $field = new Field(5, 5, 1);
+        $board = new Board(5, 5);
         $option = new Getopt();
         $user = new User();
         $input[] = "1,1";
         $input[] = "1,1,0";
         $input[] = "exit";
-        $user->fillField($field, new Console(), $option);
+        $user->fillBoard($board, new Console(), $option);
 
         $pattern = [
             [0, 0, 0, 0, 0],
@@ -89,20 +89,20 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $field2 = Field::createFromArray($pattern, 0);
+        $board2 = Board::createFromArray($pattern);
 
-        $this->assertTrue($field->isEqualTo($field2));
+        $this->assertTrue($board->isEqualTo($board2));
     }
 
     public function testStateZeroStayZero()
     {
         global $input;
-        $field = new Field(5, 5, 1);
+        $board = new Board(5, 5);
         $option = new Getopt();
         $user = new User();
         $input[] = "1,1,0";
         $input[] = "exit";
-        $user->fillField($field, new Console(), $option);
+        $user->fillBoard($board, new Console(), $option);
 
         $pattern = [
             [0, 0, 0, 0, 0],
@@ -112,21 +112,21 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $field2 = Field::createFromArray($pattern, 0);
+        $board2 = Board::createFromArray($pattern);
 
-        $this->assertTrue($field->isEqualTo($field2));
+        $this->assertTrue($board->isEqualTo($board2));
     }
 
     public function testOutOfBounce()
     {
         global $input;
-        $field = new Field(5, 5, 1);
+        $board = new Board(5, 5);
         $option = new Getopt();
         $user = new User();
         $input[] = "-1,-1,1";
         $input[] = "6,6,1";
         $input[] = "exit";
-        $user->fillField($field, new Console(), $option);
+        $user->fillBoard($board, new Console(), $option);
 
         $pattern = [
             [0, 0, 0, 0, 0],
@@ -136,8 +136,8 @@ class UserTest extends TestCase
             [0, 0, 0, 0, 0]
         ];
 
-        $field2 = Field::createFromArray($pattern, 0);
+        $board2 = Board::createFromArray($pattern);
 
-        $this->assertTrue($field->isEqualTo($field2));
+        $this->assertTrue($board->isEqualTo($board2));
     }
 }

@@ -2,11 +2,11 @@
 
 namespace GameOfLife\outputs;
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use Ulrichsg\Getopt;
 
 /**
- * Outputs the field to console.
+ * Outputs the board to console.
  * Shows the output on console.
  * @package GameOfLife\outputs
  */
@@ -31,20 +31,20 @@ class Console extends BaseOutput
     }
 
     /**
-     * Prints and outputs the field.
+     * Prints and outputs the board.
      * Generates a field and replaces 1->"$" and 0->" ".
-     * @param Field $_field
+     * @param Board $_board
      */
-    public function outputField(Field $_field)
+    public function outputBoard(Board $_board)
     {
-        $width = $_field->width();
-        $height = $_field->height();
+        $width = $_board->width();
+        $height = $_board->height();
 
         for ($y = 0; $y < $height; $y++)
         {
             for ($x = 0; $x < $width; $x++)
             {
-                echo($_field->fieldValue($x,$y) ? "$" : " ");
+                echo($_board->boardValue($x,$y) ? "$" : " ");
             }
             echo "\n";
         }

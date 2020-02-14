@@ -4,15 +4,15 @@ namespace GameOfLife\outputs;
 
 require_once "AnimGif.php";
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use GifCreator\AnimGif;
 use Ulrichsg\Getopt;
 
 /**
- * Saves the Field as a gif animation.
+ * Saves the Board as a gif animation.
  *
  * use startOutput() to start the output,
- * outputField() saves the current field in a buffer and finishOutput() saves the buffered data to disc.
+ * outputField() saves the current board in a buffer and finishOutput() saves the buffered data to disc.
  * @package GameOfLife\outputs
  */
 class Gif extends BaseOutput
@@ -86,14 +86,14 @@ class Gif extends BaseOutput
     }
 
     /**
-     * Stores the current Field in a buffer.
-     * @param Field $_field
+     * Stores the current Board in a buffer.
+     * @param Board $_board
      * @return void
      */
-    public function outputField(Field $_field)
+    public function outputBoard(Board $_board)
     {
-        $width = $_field->width();
-        $height = $_field->height();
+        $width = $_board->width();
+        $height = $_board->height();
 
         $image = imagecreate($width, $height);
         $backgroundColor = imagecolorallocate($image, $this->backgroundColor[0], $this->backgroundColor[1], $this->backgroundColor[2]);
@@ -104,7 +104,7 @@ class Gif extends BaseOutput
         {
             for ($x = 0; $x < $width; $x++)
             {
-                imagesetpixel($image, $x, $y, $_field->fieldValue($x, $y) ? $cellColor : $backgroundColor);
+                imagesetpixel($image, $x, $y, $_board->boardValue($x, $y) ? $cellColor : $backgroundColor);
             }
         }
 

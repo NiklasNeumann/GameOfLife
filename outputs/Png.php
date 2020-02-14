@@ -2,12 +2,12 @@
 
 namespace GameOfLife\outputs;
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use Ulrichsg\Getopt;
 
 /**
  * Creates Png-output
- * Outputs multiple Pngs, consisting of one field per Png.
+ * Outputs multiple Pngs, consisting of one board per Png.
  * @package GameOfLife\outputs
  */
 class Png extends BaseOutput
@@ -79,13 +79,13 @@ class Png extends BaseOutput
     }
 
     /**
-     * Outputs the field.
-     * @param Field $_field
+     * Outputs the board.
+     * @param Board $_board
      */
-    public function outputField(Field $_field)
+    public function outputBoard(Board $_board)
     {
-        $width = $_field->width();
-        $height = $_field->height();
+        $width = $_board->width();
+        $height = $_board->height();
 
         $image = imagecreate($width, $height);
         $backgroundColor = imagecolorallocate($image, $this->backgroundColor[0], $this->backgroundColor[1], $this->backgroundColor[2]);
@@ -95,7 +95,7 @@ class Png extends BaseOutput
         {
             for ($x = 0; $x < $width; $x++)
             {
-                imagesetpixel($image, $x, $y,$_field->fieldValue($x, $y) ? $cellColor : $backgroundColor);
+                imagesetpixel($image, $x, $y,$_board->boardValue($x, $y) ? $cellColor : $backgroundColor);
             }
         }
         $image = imagescale($image, $width * $this->scaleFactor, $height * $this->scaleFactor, IMG_NEAREST_NEIGHBOUR);

@@ -2,7 +2,7 @@
 
 namespace GameOfLife\inputs;
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
@@ -10,7 +10,7 @@ use Ulrichsg\Getopt;
  * Fills the board from user input.
  *
  * With the function addOptions, you can add Options from outside of the gameoflife.php file.
- * The function fillField can be used to fill the $field variable in Field.php with the wished field-stats.
+ * The function fillBoard can be used to fill the $board variable in Board.php with the wished board-stats.
  * @package GameOfLife\inputs
  */
 class User extends BaseInput
@@ -26,11 +26,11 @@ class User extends BaseInput
     /**
      * Fills a field.
      *
-     * @param Field $_field Board to prepare.
+     * @param Board $_board Board to prepare.
      * @param Console $_console
      * @param Getopt $_options Option manager to check for optional arguments.
      */
-    public function fillField(Field $_field, Console $_console, Getopt $_options)
+    public function fillBoard(Board $_board, Console $_console, Getopt $_options)
     {
         echo "To change a cell type the coordinates, optionally the state, separated by commas";
         echo "and hit enter.\n";
@@ -38,18 +38,18 @@ class User extends BaseInput
         echo "If you are finished type exit.\n";
         while(1)
         {
-            $_console->outputField($_field);
+            $_console->outputBoard($_board);
             $line = readline("<<");
             if( $line == "exit" )
                 break;
             $coords = explode(",", $line);
             if(count($coords) == 2)
             {
-                $_field->setFieldValue($coords[0],$coords[1],1);
+                $_board->setBoardValue($coords[0],$coords[1],1);
             }
             if(count($coords) == 3)
             {
-                $_field->setFieldValue($coords[0],$coords[1],$coords[2]);
+                $_board->setBoardValue($coords[0],$coords[1],$coords[2]);
             }
         }
     }

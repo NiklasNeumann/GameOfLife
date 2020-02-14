@@ -4,6 +4,7 @@
             <directory>/vagrant/</directory>
             <exclude>
                 <directory>vendor/</directory>
+                <directory>tests/</directory>
             </exclude>
         </whitelist>
     </filter>
