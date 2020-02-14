@@ -45,7 +45,7 @@ $options = new Getopt
     [null, "maxSteps", Getopt::REQUIRED_ARGUMENT, "Allows to set the maximum times the program should run through."],
     [null, "input", Getopt::REQUIRED_ARGUMENT, "Allows to start the game's as stats manually."],
     [null, "output", Getopt::REQUIRED_ARGUMENT, "Allows to set the output-type manually."],
-    [null, "rule", Getopt::REQUIRED_ARGUMENT, "Aööpws to set the rule-type for the game."]
+    [null, "rule", Getopt::REQUIRED_ARGUMENT, "Allows to set the rule-type for the game."]
 ]);
 
 foreach (glob("inputs/*.php") as $file)
