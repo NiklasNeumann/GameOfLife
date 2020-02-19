@@ -42,35 +42,11 @@ class AntiConway extends BaseRule
         $neighbourCount = $_field->numberOfLivingNeighbours();
         $result = 0;
 
-        if ($neighbourCount === 0)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 1)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 2)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 3)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 4)
+        if(!$neighbourCount === 5 || $neighbourCount === 9)
         {
             $result = 1;
         }
         if ($neighbourCount === 6 and $_field->isDead())
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 7)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 8)
         {
             $result = 1;
         }

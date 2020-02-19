@@ -41,6 +41,14 @@ class BoardTest extends TestCase
         $this->assertEquals(25, $_board->height());
     }
 
+    public function testIfTheIsEqualFunctionWorks()
+    {
+        $board = new Board(5, 5);
+        $board2 = new Board(5, 5);
+
+        $this->assertTrue($board->isEqualTo($board2));
+    }
+
     /**
      *
      */
@@ -99,14 +107,6 @@ class BoardTest extends TestCase
     {
         $_board->setBoardValue(25, 15, 1);
         $this->assertEquals(1, $_board->boardValue(25, 15));
-    }
-
-    public function testIfTheIsEqualFunctionWorks()
-    {
-        $board = new Board(5, 5);
-        $board2 = new Board(5, 5);
-
-        $this->assertTrue($board->isEqualTo($board2));
     }
 
     public function testCompareWithSmallerBoard()

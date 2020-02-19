@@ -42,19 +42,7 @@ class CopyRule extends BaseRule
         $neighbourCount = $_field->numberOfLivingNeighbours();
         $result = 0;
 
-        if ($neighbourCount === 1)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 3)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 5)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 7)
+        if ($neighbourCount === 1 || $neighbourCount === 3 || $neighbourCount === 5 || $neighbourCount === 7)
         {
             $result = 1;
         }

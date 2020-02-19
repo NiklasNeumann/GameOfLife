@@ -2,11 +2,8 @@
 
 namespace GameOfLife;
 
-require_once "Getopt.php";
-require_once "Field.php";
-
 /**
- * Every Field of the Board.
+ * Fields of the Board.
  * This Class enables the use and customization of every Field of the board.
  * @package GameOfLife
  */
@@ -19,9 +16,9 @@ class Field
 
     /**
      * Field constructor.
-     * @param Board $_board
-     * @param $_x
-     * @param $_y
+     * @param Board $_board of which the fields can be customized.
+     * @param $_x int width of the board
+     * @param $_y int height of the board
      */
     public function __construct(Board $_board, $_x, $_y)
     {
@@ -90,8 +87,6 @@ class Field
      */
     public function numberOfDeadNeighbours()
     {
-        $deadNeighbours = 8;
-
-        return $deadNeighbours - $this->numberOfLivingNeighbours();
+        return 8 - $this->numberOfLivingNeighbours();
     }
 }

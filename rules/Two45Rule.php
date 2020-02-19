@@ -42,23 +42,10 @@ class Two45Rule extends BaseRule
         $neighbourCount = $_field->numberOfLivingNeighbours();
         $result = 0;
 
-        if ($neighbourCount === 2)
+        if ($neighbourCount === 2 || $neighbourCount === 4 || $neighbourCount === 5 || ($neighbourCount === 3 and $_field->isDead()))
         {
             $result = 1;
         }
-        if ($neighbourCount === 4)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 5)
-        {
-            $result = 1;
-        }
-        if ($neighbourCount === 3 and $_field->isDead())
-        {
-            $result = 1;
-        }
-
 
         return $result;
     }

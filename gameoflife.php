@@ -20,11 +20,11 @@ require_once "Board.php";
  */
 $allInputs = [];
 /**
- * @var BaseOutput $allOutputs
+ * @var BaseOutput[] $allOutputs
  */
 $allOutputs = [];
 /**
- * @var BaseRule $allRules
+ * @var BaseRule[] $allRules
  */
 $allRules = [];
 
@@ -76,9 +76,9 @@ foreach (glob("rules/*.php") as $file)
     $className = "GameOfLife\\rules\\" . $baseName;
     if ($baseName == "BaseRule") continue;
     if (!class_exists($className)) continue;
-    $rules = new $className;
-    $allRules[$baseName] = $rules;
-    $rules->addOptions($options);
+    $rule = new $className;
+    $allRules[$baseName] = $rule;
+    $rule->addOptions($options);
 }
 
 $options->parse();

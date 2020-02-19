@@ -2,13 +2,10 @@
 
 namespace GameOfLife;
 
-use GameOfLife\outputs\BaseOutput;
-
 /**
- * Create playing board.
- * The class Field is responsible für generating and printing the fields and cells needed for the GoL.
- * It will also count the cell's neighbours and generate the next generation of cells by following the default GoL rules.
- * In the end, the class "start" will execute the code and start the GameOfLife.
+ * The playing board of a game of live simulation.
+ * Constructs a board with the width and height given into the constructor.
+ * Also an array can be used to create a new board or compare it with an already existing one.
  * @package gameoflife
  */
 class Board
@@ -16,8 +13,6 @@ class Board
     protected $board = [];
     protected $width;
     protected $height;
-//    private $history = [];
-//    private $generationCount = 0;
 
     /**
      * Board constructor
@@ -57,7 +52,7 @@ class Board
     /**
      * Construct empty board
      */
-    public function constructBoard()
+    private function constructBoard()
     {
         for ($y = 0; $y < $this->height; $y++)
         {
@@ -143,13 +138,16 @@ class Board
      */
     public function field($_x, $_y)
     {
-        return $this->board[$_x][$_y];
+        if($_x < $this->width() or $_y < $this->height())
+        {
+            return $this->board[$_x][$_y];
+        }
     }
 
     /**
-     * Count living neighbours
+     * Count living neighbours.
      * @param $_field
-     * @return int Of the neighbour-count.2
+     * @return int Of the neighbour-count
      */
     public function getNeighboursOfField(Field $_field)
     {
@@ -187,91 +185,4 @@ class Board
         }
         return $neighbours;
     }
-
-
-//    /**
-//     * Calculate next generation
-//     * First $nextField is created, which copies the contents of the $boards variable and sets the cell-status to 0 (dead).
-//     * After that, the "set-alive-conditions" will be implemented and cells fitting the conditions will be set to 1 (alive).
-//     */
-//
-//    private function nextGeneration()
-//    {
-//        $nextBoard = [];
-//
-//        //set nextField to 0
-//        for ($y = 0; $y < $this->height; $y++)
-//        {
-//            for ($x = 0; $x < $this->width; $x++)
-//            {
-//                $nextBoard[$x][$y] = 0;
-//            }
-//        }
-//
-//        for ($y = 0; $y < $this->height; $y++)
-//        {
-//            for ($x = 0; $x < $this->width; $x++)
-//            {
-//                $neighbourCount = $this->countNeighbours($x, $y);
-//
-//                if ($neighbourCount === 3)
-//                {
-//                    //set alive
-//                    $nextBoard[$x][$y] = 1;
-//                }
-//
-//                if ($neighbourCount == 2 and $this->board[$x][$y] == 1)
-//                {
-//                    $nextBoard[$x][$y] = 1;
-//                }
-//            }
-//        }
-//
-//        $this->board = $nextBoard;
-//    }
-//
-//
-//    /**
-//     * Start-Game function
-//     * Prints the board, calculates the next Generation and prints the new board for "maxSteps"-times.
-//     * Also, if a field is printed double and the board does'nt change anymore, the program will stop automatically.
-//     * @param $_output BaseOutput The Output that should be used to output the board.
-//     */
-//    public function start($_output)
-//    {
-//        $_output->outputBoard($this);
-//
-//        for ($i = 0; $i < $this->maxSteps; $i++)
-//        {
-//            $this->history[] = $this->board; //saves board
-//            $this->generationCount++;
-//            $this->nextGeneration();
-//            $_output->outputBoard($this);
-//
-//            //compare
-//            foreach ($this->history as $previousBoard)
-//            {
-//                $equal = true;
-//                for ($y = 0; $y < $this->height; $y++)
-//                {
-//                    for ($x = 0; $x < $this->width; $x++)
-//                    {
-//                        if ($previousBoard[$x][$y] != $this->board[$x][$y])
-//                        {
-//                            $equal = false;
-//                        }
-//                    }
-//                }
-//                if ($equal == true)
-//                {
-//                    return;
-//                }
-//            }
-//
-//            if (count($this->history) > 2)
-//            {
-//                array_shift($this->history);
-//            }
-//        }
-//    }
 }
