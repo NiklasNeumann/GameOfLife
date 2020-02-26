@@ -96,7 +96,7 @@ class BoardTest extends TestCase
         $board = new Board(5, 5);
         $field = new Field($board, 6, -1);
 
-        $this->assertEquals(-1, $board->getNeighboursOfField($field));
+        $this->assertEquals(-1, $board->countLivingNeighboursOfField($field));
     }
 
     /**

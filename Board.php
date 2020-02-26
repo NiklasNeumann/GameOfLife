@@ -149,7 +149,7 @@ class Board
      * @param $_field
      * @return int Of the neighbour-count
      */
-    public function getNeighboursOfField(Field $_field)
+    public function countLivingNeighboursOfField(Field $_field)
     {
         $neighbours = 0;
         $y = $_field->y();

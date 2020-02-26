@@ -78,7 +78,7 @@ class Field
      */
     public function numberOfLivingNeighbours()
     {
-        return $this->board->getNeighboursOfField($this);
+        return $this->board->countLivingNeighboursOfField($this);
     }
 
     /**
