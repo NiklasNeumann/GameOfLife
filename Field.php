@@ -2,261 +2,91 @@
 
 namespace GameOfLife;
 
-use GameOfLife\outputs\BaseOutput;
-
 /**
- * Create playing field
- * The class Field is responsible für generating and printing the fields and cells needed for the GoL.
- * It will also count the cell's neighbours and generate the next generation of cells by following the default GoL rules.
- * In the end, the class "start" will execute the code and start the GameOfLife.
- * @package gameoflife
+ * Fields of the Board.
+ * This Class enables the use and customization of every Field of the board.
+ * @package GameOfLife
  */
 class Field
 {
-    protected $field = [];
-    protected $width;
-    protected $height;
-    protected $maxSteps;
-    private $history = [];
-    private $generationCount = 0;
+    private $board;
+    private $x;
+    private $y;
+    private $value = 0;
 
     /**
-     * Field constructor
-     * @param $_width int
-     * @param $_height int
-     * @param $_maxSteps int
+     * Field constructor.
+     * @param Board $_board of which the fields can be customized.
+     * @param $_x int width of the board
+     * @param $_y int height of the board
      */
-    public function __construct($_width, $_height, $_maxSteps)
+    public function __construct(Board $_board, $_x, $_y)
     {
-        $this->width = $_width;
-        $this->height = $_height;
-        $this->maxSteps = $_maxSteps;
-
-        $this->constructField();
+        $this->board = $_board;
+        $this->x = $_x;
+        $this->y = $_y;
     }
 
     /**
-     * Create field from Array.
-     * @param $_array array
-     * @param $_maxSteps int
-     * @return Field
+     * Set the state of the Field.
+     * @param bool $_state
      */
-    public static function createFromArray($_array, $_maxSteps)
+    public function setValue(bool $_state)
     {
-        $height = count($_array);
-        $width = count($_array[0]);
-
-        $field = new Field($width, $height, $_maxSteps);
-
-        for($y = 0; $y < $height; $y++)
-        {
-            for($x = 0; $x < $width; $x++)
-            {
-                $field->setfieldValue($x, $y, $_array[$x][$y]);
-            }
-        }
-        return $field;
+        $this->value = $_state;
     }
 
     /**
-     * Construct empty field
+     * Check if the Field is alive.
+     * @return int
      */
-    public function constructField()
+    public function isAlive()
     {
-        for ($y = 0; $y < $this->height; $y++)
-        {
-            for ($x = 0; $x < $this->width; $x++)
-            {
-                $this->field[$x][$y] = 0;
-            }
-        }
+        return $this->value;
     }
 
     /**
-     * Set field's cells
-     * @param $_x int for the x-Position of the cells
-     * @param $_y int for the y-position of the cells
-     * @param $_state bool for the status of cells (dead or alive)
-     */
-    public function setFieldValue($_x, $_y, $_state)
-    {
-        if ($_x >= 0 and $_x < $this->width and $_y >= 0 and $_y < $this->height)
-        {
-            $this->field[$_x][$_y] = $_state;
-        }
-    }
-
-    /**
-     * Get the field's cells
-     * @param $_x int for the x-Position of the cells
-     * @param $_y int for the y-position of the cells
-     * @return mixed
-     */
-    public function fieldValue($_x, $_y)
-    {
-        return $this->field[$_x][$_y];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function height()
-    {
-        return $this->height;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function width()
-    {
-        return $this->width;
-    }
-
-    /**
-     * Compare field with parameter field.
-     * @param Field $_field
+     * Check if the Field is dead.
      * @return bool
      */
-    public function isEqualTo(Field $_field)
+    public function isDead()
     {
-        $isEqual = false;
-
-        if ($this->width != $_field->width() or $this->height != $_field->height())
-        {
-            return $isEqual;
-        }
-
-        for($y = 0; $y < $this->height(); $y++)
-        {
-            for($x = 0; $x < $this->width(); $x++)
-            {
-                if($this->field[$x][$y] == $_field->fieldValue($x,$y))
-                {
-                    $isEqual = true;
-                }
-            }
-        }
-        return $isEqual;
+        return !$this->isAlive();
     }
 
     /**
-     * Count living neighbours
-     * @param $_x int X-coordinates of the field.
-     * @param $_y int Y-coordinates of the field.
-     * @return int Of the neighbour-count.
+     * Return the x-position of the Field.
+     * @return mixed
      */
-    private function countNeighbours($_x, $_y)
+    public function x()
     {
-        $neighbours = 0;
-
-        for ($ny = $_y - 1; $ny <= $_y + 1; $ny++)
-        {
-            for ($nx = $_x - 1; $nx <= $_x + 1; $nx++)
-            {
-                if ($nx >= $this->width or $nx < 0)
-                {
-                    continue;
-                }
-                if ($ny >= $this->height or $ny < 0)
-                {
-                    continue;
-                }
-                if ($nx == $_x and $ny == $_y)
-                {
-                    continue;
-                }
-
-                if ($this->field[$nx][$ny] == 1)
-                {
-                    $neighbours++;
-                }
-            }
-        }
-        return $neighbours;
+        return $this->x;
     }
 
     /**
-     * Calculate next generation
-     * First $nextField is created, which copies the contents of the $fields variable and sets the cell-status to 0 (dead).
-     * After that, the "set-alive-conditions" will be implemented and cells fitting the conditions will be set to 1 (alive).
+     * Return the y-position of the Field.
+     * @return mixed
      */
-    private function nextGeneration()
+    public function y()
     {
-        $nextField = [];
-
-        //set nextField to 0
-        for ($y = 0; $y < $this->height; $y++)
-        {
-            for ($x = 0; $x < $this->width; $x++)
-            {
-                $nextField[$x][$y] = 0;
-            }
-        }
-
-        for ($y = 0; $y < $this->height; $y++)
-        {
-            for ($x = 0; $x < $this->width; $x++)
-            {
-                $neighbourCount = $this->countNeighbours($x, $y);
-
-                if ($neighbourCount === 3)
-                {
-                    //set alive
-                    $nextField[$x][$y] = 1;
-                }
-
-                if ($neighbourCount == 2 and $this->field[$x][$y] == 1)
-                {
-                    $nextField[$x][$y] = 1;
-                }
-            }
-        }
-
-        $this->field = $nextField;
+        return $this->y;
     }
 
     /**
-     * Start-Game function
-     * Prints the field, calculates the next Generation and prints the new field for "maxSteps"-times.
-     * Also, if a field is printed double and the field does'nt change anymore, the program will stop automatically.
-     * @param $_output BaseOutput The Output that should be used to output the field.
+     * Count the number of living neighbours.
+     * @return int
      */
-    public function start($_output)
+    public function numberOfLivingNeighbours()
     {
-        $_output->outputField($this);
+        return $this->board->countLivingNeighboursOfField($this);
+    }
 
-        for ($i = 0; $i < $this->maxSteps; $i++)
-        {
-            $this->history[] = $this->field; //saves field
-            $this->generationCount++;
-            $this->nextGeneration();
-            $_output->outputField($this);
-
-            //compare
-            foreach ($this->history as $previousField)
-            {
-                $equal = true;
-                for ($y = 0; $y < $this->height; $y++)
-                {
-                    for ($x = 0; $x < $this->width; $x++)
-                    {
-                        if ($previousField[$x][$y] != $this->field[$x][$y])
-                        {
-                            $equal = false;
-                        }
-                    }
-                }
-                if ($equal == true)
-                {
-                    return;
-                }
-            }
-
-            if (count($this->history) > 2)
-            {
-                array_shift($this->history);
-            }
-        }
+    /**
+     * Count the number of dead neighbours.
+     * @return int
+     */
+    public function numberOfDeadNeighbours()
+    {
+        return 8 - $this->numberOfLivingNeighbours();
     }
 }

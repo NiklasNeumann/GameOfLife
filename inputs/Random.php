@@ -2,13 +2,13 @@
 
 namespace GameOfLife\inputs;
 
-use GameOfLife\Field;
+use GameOfLife\Board;
 use GameOfLife\outputs\Console;
 use Ulrichsg\Getopt;
 
 /**
- * Generates a field with random living cells.
- * The filling of the field can be set with the "filling" parameter.
+ * Generates a board with random living cells.
+ * The filling of the board can be set with the "filling" parameter.
  */
 class Random extends BaseInput
 {
@@ -21,18 +21,18 @@ class Random extends BaseInput
     {
         $_options->addOptions
         ([
-                ['f', "filling", Getopt::REQUIRED_ARGUMENT, "Allows to set the percentage amount of living cells on the field."]
+                ['f', "filling", Getopt::REQUIRED_ARGUMENT, "Allows to set the percentage amount of living cells on the board."]
         ]);
     }
 
     /**
-     * Fill field.
+     * Fill board.
      * The board will be filled with the wished number of cells. The filling will be set via parameter.
-     * @param Field $_field
+     * @param Board $_board
      * @param Console $_console
      * @param Getopt $_options
      */
-    public function fillField(Field $_field, Console $_console, Getopt $_options)
+    public function fillBoard(Board $_board, Console $_console, Getopt $_options)
     {
         $filling = intval($_options->getOption("filling"));
 
@@ -41,13 +41,13 @@ class Random extends BaseInput
             $filling = 50;
         }
 
-        for ($y = 0; $y < $_field->height(); $y++)
+        for ($y = 0; $y < $_board->height(); $y++)
         {
-            for ($x = 0; $x < $_field->width(); $x++)
+            for ($x = 0; $x < $_board->width(); $x++)
             {
                 if ($filling > rand(0, 99))
                 {
-                    $_field->setFieldValue($x, $y, 1);
+                    $_board->setBoardValue($x, $y, 1);
                 }
             }
         }

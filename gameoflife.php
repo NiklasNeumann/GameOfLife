@@ -3,38 +3,49 @@
 namespace GameOfLife;
 
 use GameOfLife\inputs\BaseInput;
+use GameOfLife\inputs\Random;
 use GameOfLife\outputs\BaseOutput;
 use GameOfLife\outputs\Console;
+use GameOfLife\rules\BaseRule;
+use GameOfLife\rules\StandardRule;
 use Ulrichsg\Getopt;
 
 require "vendor/autoload.php";
 
 require_once "Getopt.php";
-require_once "Field.php";
+require_once "Board.php";
 
 /**
  * @var BaseInput
  */
 $allInputs = [];
 /**
- * @var BaseOutput $allOutputs
+ * @var BaseOutput[] $allOutputs
  */
 $allOutputs = [];
-$maxSteps = 500;
+/**
+ * @var BaseRule[] $allRules
+ */
+$allRules = [];
 
-$width = 50;
-$height = 20;
+$currentOutput = null;
+$currentRule = null;
+
+$maxSteps = 40;
+$width = 10;
+$height = 10;
 
 
 $options = new Getopt
 ([
     ["h", "help", Getopt::NO_ARGUMENT, "Shows help text."],
     ["v", "version", Getopt::NO_ARGUMENT, "Shows current version of the game."],
-    [null, "width", Getopt::REQUIRED_ARGUMENT, "Allows to set the fields width manually. (HEIGHT STAYS ON DEFAULT)"],
-    [null, "height", Getopt::REQUIRED_ARGUMENT, "Allows to set the field height manually. (WIDTH STAYS ON DEFAULT)"],
+    [null, "width", Getopt::REQUIRED_ARGUMENT, "Allows to set the boards width manually. (HEIGHT STAYS ON DEFAULT)"],
+    [null, "height", Getopt::REQUIRED_ARGUMENT, "Allows to set the boards height manually. (WIDTH STAYS ON DEFAULT)"],
     [null, "maxSteps", Getopt::REQUIRED_ARGUMENT, "Allows to set the maximum times the program should run through."],
     [null, "input", Getopt::REQUIRED_ARGUMENT, "Allows to start the game's as stats manually."],
-    [null, "output", Getopt::REQUIRED_ARGUMENT, "Allows to set the output-type manually."]
+    [null, "output", Getopt::REQUIRED_ARGUMENT, "Allows to set the output-type manually."],
+    [null, "rule", Getopt::REQUIRED_ARGUMENT, "Allows to set the rule-type for the game."]
 ]);
 
 foreach (glob("inputs/*.php") as $file)
@@ -57,6 +68,17 @@ foreach (glob("outputs/*.php") as $file)
     $outputs = new $className;
     $allOutputs[$baseName] = $outputs;
     $outputs->addOptions($options);
+}
+
+foreach (glob("rules/*.php") as $file)
+{
+    $baseName = basename($file, ".php");
+    $className = "GameOfLife\\rules\\" . $baseName;
+    if ($baseName == "BaseRule") continue;
+    if (!class_exists($className)) continue;
+    $rule = new $className;
+    $allRules[$baseName] = $rule;
+    $rule->addOptions($options);
 }
 
 $options->parse();
@@ -93,24 +115,53 @@ if ($options->getOption("maxSteps") != null)
     $maxSteps = intval($options->getOption("maxSteps"));
 }
 
-$field = new Field($width, $height, $maxSteps);
+$board = new Board($width, $height);
+
 if ($options->getOption("input"))
 {
-    if (isset($allInputs[$options->getOption("input")]))
+    $argument = $options->getOption("input");
+    if (isset($allInputs[$argument]))
     {
         $console = new Console();
-        $allInputs[$options->getOption("input")]->fillField($field, $console, $options);
+        $allInputs[$argument]->fillBoard($board, $console, $options);
     }
+}
+else
+{
+    $console = new Console();
+    $input = new Random();
+    $input->fillBoard($board, $console, $options);
 }
 
 if ($options->getOption("output"))
 {
     $argument = $options->getOption("output");
-    if (isset($allOutputs[$argument]))
-    {
-        $allOutputs[$argument]->startOutput($options);
-        $field->start($allOutputs[$argument]);
-        $allOutputs[$argument]->finishOutput();
-    }
+    $currentOutput = $allOutputs[$argument];
+}
+else
+{
+    $currentOutput = new Console();
 }
 
+if ($options->getOption("rule"))
+{
+    $argument = $options->getOption("rule");
+    $currentRule = $allRules[$argument];
+}
+else
+{
+    $currentRule = new StandardRule();
+}
+
+$currentOutput->startOutput($options);
+$gameLogic = new GameLogic($currentRule);
+
+for ($i = 0; $i < $maxSteps; $i++)
+{
+    $currentOutput->outputBoard($board);
+    $gameLogic->calculateNextBoard($board);
+    if ($gameLogic->isLoopDetected())
+        break;
+}
+
+$currentOutput->finishOutput();
